@@ -1,8 +1,5 @@
 FROM archlinux:latest
 
-#i am maintainer
-MAINTAINER PrajjuS <prajwal.suresh27@gmail.com>
-
 #official repos
 RUN echo "[multilib]" >> /etc/pacman.conf && \
     echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
