@@ -1,0 +1,64 @@
+#inherit base docker
+FROM debian:bullseye
+
+#Env
+ENV DEBIAN_FRONTEND=noninteractive
+
+#lang fixes
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+#install packages
+RUN apt-get install -y --no-install-recommends \
+		bash \
+		ca-certificates \
+		curl \
+		dirmngr \
+		dpkg-dev \
+		findutils \
+		gcc \
+		git \
+		gnupg \
+		jq \
+		libbz2-dev \
+		libc6-dev \
+		libexpat1-dev \
+		libffi-dev \
+		libjpeg-dev \
+		liblzma-dev \
+		libsqlite3-dev \
+		libssl-dev \
+		libxml2 \
+		libxml2-dev \
+		libxslt-dev \
+		make \
+		musl \
+		neofetch \
+		netbase \
+		pv \
+		sudo \
+		tar \
+		uuid-dev \
+		wget \
+		xz-utils \
+		zip \
+		zlib1g-dev
+
+#fizilion
+RUN apt-get install -y --no-install-recommends \
+		aria2 \
+		chromium \
+		chromium-driver \
+		ffmpeg \
+		figlet \
+		libfreetype6 \
+		libfreetype6-dev \
+		libevent-dev \
+		libpq-dev \
+		megatools \
+		nodejs \
+		postgresql \
+		postgresql-contrib \
+		postgresql-client \
+		python-psycopg2
