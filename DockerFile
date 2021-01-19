@@ -1,7 +1,7 @@
 FROM archlinux:latest
 
 #i am maintainer
-MAINTAINER ElytrA8 <manofuranium@gmail.com>
+MAINTAINER PrajjuS <prajwal.suresh27@gmail.com>
 
 #official repos
 RUN echo "[multilib]" >> /etc/pacman.conf && \
