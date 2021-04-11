@@ -1,75 +1,56 @@
-FROM archlinux:latest
+FROM python:slim-buster
 
-#official repos
-RUN echo "[multilib]" >> /etc/pacman.conf && \
-    echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+ENV DEBIAN_FRONTEND noninteractive
 
-#update repositories and upgrade dependencies
-RUN pacman -Syy --noconfirm
-RUN pacman -Syu --noconfirm
-RUN pacman -Sy --noconfirm bash \
-                           bzip2 \
-                           ca-certificates \
-		           curl \
-		           dpkg \
-		           findutils \
-		           gcc \
-		           git \
-		           gnupg \
-		           jq \
-		           lib32-bzip2 \
-		           lib32-glibc \
-		           expat \
-		           libffi \
-		           libjpeg-turbo \
-		           xz \
-		           sqlite \
-		           openssl \
-		           libxml2 \
-		           libxslt \
-		           make \
-		           musl \
-		           neofetch \
-		           pv \
-		           sudo \
-		           tar \
-		           wget \
-		           zip \
-		           zlib
-             
-# Python & Pypi
-RUN pacman -Sy python python-pip --noconfirm
-RUN python -m pip install -U pip
-RUN pip install wheel setuptools
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/staging/requirements.txt requirements.txt
 
-#Fizilion
-RUN pacman -Sy --noconfirm asciidoc \
-                           aria2 \
-                           base-devel \
-		           chromium \
-		           expect \
-                           ffmpeg \
-		           figlet \
-		           freetype2 \
-		           libevent \
-                           openssh \
-                           p7zip \
-		           postgresql \
-		           postgresql-libs \
-                           nano \
-                           vim \
-                           patchelf \
-                           gzip 
-                      
-#requirments
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Experiment/requirements.txt requirements.txt	
-RUN pip install --no-cache-dir -r requirements.txt	
-RUN rm -rf requirements.txt
+RUN set -ex \
+    # Install dependencies
+    && sed -i 's/ main/ main contrib non-free/g' /etc/apt/sources.list \
+    && apt-get -qq update \
+    && apt-get -qq -y install --no-install-recommends \
+        aria2 \
+        bash \
+        chromium \
+        chromium-driver \
+        curl \
+        ffmpeg \
+        figlet \
+        git \
+        jq \
+        libpq-dev \
+        libssl-dev \
+        libwebp6 \
+        libxml2 \
+        megatools \
+        neofetch \
+        postgresql \
+        pv \
+        rar \
+        sudo \
+        unar \
+        unrar \
+        unzip \
+        wget \
+        xz-utils \
+        zip \
+        # Non-runtime dependencies
+        apt-utils \
+        build-essential \
+        gnupg2 \
+    # Install Python modules
+    && pip3 install --no-cache-dir -r requirements.txt \
+    && rm requirements.txt \
+    # Cleanup
+    && apt-get -qq -y purge --auto-remove \
+        apt-utils \
+        build-essential \
+        gnupg2 \
+    && apt-get -qq -y clean \
+    && rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* /etc/apt/sources.list.d/*
 
-#megatools
-RUN wget https://megatools.megous.com/builds/megatools-1.10.3.tar.gz
-RUN tar -xzf *.tar.gz
-RUN cd megatools-1.10.3 && ./configure && make && make install && cd .. && rm -rf megatools-1.10.3 && rm -rf megatools-1.10.3.tar.gz
+EXPOSE 80 443
 
-#finalization
 CMD ["python3"]
+
+# vim: ft=dockerfile
