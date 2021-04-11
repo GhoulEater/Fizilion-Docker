@@ -2,7 +2,7 @@ FROM python:slim-buster
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/staging/requirements.txt requirements.txt
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
 
 RUN set -ex \
     # Install dependencies
