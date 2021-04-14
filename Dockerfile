@@ -1,5 +1,7 @@
 FROM alpine:edge
 
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
+
 RUN set -ex && \
 	apk add --no-cache --update \
 		bash \
