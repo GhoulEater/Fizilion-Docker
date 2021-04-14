@@ -12,6 +12,7 @@ RUN set -ex && \
 		expat-dev \
 		findutils \
 		gcc \
+		g++ \
 		git \
 		gnupg \
 		jq \
@@ -27,8 +28,6 @@ RUN set -ex && \
 		linux-headers \
 		make \
 		musl \
-                nodejs \
-                npm \
 		neofetch \
 		openssl \
 		openssl-dev \
@@ -55,7 +54,7 @@ RUN python3 -m ensurepip \
     rm -r /root/.cache
 
 #Fizilion
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
+
 RUN sed -e 's;^#http\(.*\)/edge/community;http\1/edge/community;g' -i /etc/apk/repositories
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
@@ -74,13 +73,14 @@ RUN set -ex && \
                 openssh \
                 p7zip \
 		postgresql \
+		patchelf \
 		postgresql-dev \
 		postgresql-client
 
-RUN pip install --no-cache-dir -r requirements.txt	
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN rm -rf requirements.txt
 
-#wiikit
-RUN npm install wikit -g
+
 
 CMD ["python3"]
