@@ -1,9 +1,5 @@
 FROM alpine:edge
 
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/demon/requirements.txt requirements.txt
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Experiment/requirements.txt requirements.txt
-
 RUN set -ex && \
 	apk add --no-cache --update \
 		bash \
@@ -59,7 +55,7 @@ RUN python3 -m ensurepip \
     rm -r /root/.cache
 
 #Fizilion
-
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
 RUN sed -e 's;^#http\(.*\)/edge/community;http\1/edge/community;g' -i /etc/apk/repositories
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
