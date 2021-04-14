@@ -1,56 +1,88 @@
-FROM python:slim-buster
+FROM alpine:edge
 
-ENV DEBIAN_FRONTEND noninteractive
+RUN set -ex && \
+	apk add --no-cache --update \
+		bash \
+		bzip2-dev \
+		ca-certificates \
+		coreutils \
+		curl \
+		dpkg \
+		dpkg-dev \
+		expat-dev \
+		findutils \
+		gcc \
+		git \
+		gnupg \
+		jq \
+		libc-dev \
+		libffi-dev \
+		libjpeg \
+		libjpeg-turbo-dev \
+		libwebp-dev \
+		libpq \
+		libxml2 \
+		libxml2-dev \
+		libxslt-dev \
+		linux-headers \
+		make \
+		musl \
+                nodejs \
+                npm \
+		neofetch \
+		openssl \
+		openssl-dev \
+	        python3 \
+                python3-dev \
+                readline-dev \
+                pv \
+                sqlite \
+		sqlite-dev \
+		sudo \
+		tar \
+		util-linux-dev \
+		wget \
+		xz \
+		xz-dev \
+		zip \
+		zlib-dev		
+RUN python3 -m ensurepip \
+    && pip3 install --upgrade pip setuptools \
+    && pip3 install wheel \
+    && rm -r /usr/lib/python*/ensurepip && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    rm -r /root/.cache
 
-ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
+#Fizilion
 
-RUN set -ex \
-    # Install dependencies
-    && sed -i 's/ main/ main contrib non-free/g' /etc/apt/sources.list \
-    && apt-get -qq update \
-    && apt-get -qq -y install --no-install-recommends \
-        aria2 \
-        bash \
-        chromium \
-        chromium-driver \
-        curl \
-        ffmpeg \
-        figlet \
-        git \
-        jq \
-        libpq-dev \
-        libssl-dev \
-        libwebp6 \
-        libxml2 \
-        megatools \
-        neofetch \
-        postgresql \
-        pv \
-        rar \
-        sudo \
-        unar \
-        unrar \
-        unzip \
-        wget \
-        xz-utils \
-        zip \
-        # Non-runtime dependencies
-        apt-utils \
-        build-essential \
-        gnupg2 \
-    # Install Python modules
-    && pip3 install --no-cache-dir -r requirements.txt \
-    && rm requirements.txt \
-    # Cleanup
-    && apt-get -qq -y purge --auto-remove \
-        apt-utils \
-        build-essential \
-        gnupg2 \
-    && apt-get -qq -y clean \
-    && rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* /etc/apt/sources.list.d/*
+RUN sed -e 's;^#http\(.*\)/edge/community;http\1/edge/community;g' -i /etc/apk/repositories
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
-EXPOSE 80 443
+RUN set -ex && \
+	apk add --no-cache --update \
+		aria2 \
+		chromium \
+		chromium-chromedriver \
+                ffmpeg \
+		figlet \
+		freetype-dev \
+		libevent \
+		megatools \
+		nodejs \
+                npm \
+                openssh \
+                p7zip \
+		postgresql \
+		postgresql-dev \
+		postgresql-client
+
+
+ADD https://raw.githubusercontent.com/FrosT2k5/ProjectFizilion/dragon/requirements.txt requirements.txt	
+RUN pip install --no-cache-dir -r requirements.txt	
+RUN rm -rf requirements.txt
+
+#wiikit
+RUN npm install wikit -g
 
 CMD ["python3"]
-
-# vim: ft=dockerfile
