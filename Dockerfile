@@ -31,7 +31,7 @@ RUN set -ex && \
 		neofetch \
 		openssl \
 		openssl-dev \
-	        python3 \
+	        python3.8 \
                 python3-dev \
                 readline-dev \
                 pv \
