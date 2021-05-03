@@ -46,8 +46,7 @@ RUN set -ex && \
 		zip \
 		zlib-dev		
 RUN python3 -m ensurepip \
-    && pip3 install --upgrade pip setuptools \
-    && pip install --no-use-pep517 \
+    && pip3 install --upgrade pip setuptools \ 
     && pip3 install wheel \
     && rm -r /usr/lib/python*/ensurepip && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
@@ -79,7 +78,7 @@ RUN set -ex && \
 		postgresql-client
 
 ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --no-use-pep517 -r requirements.txt
 RUN rm -rf requirements.txt
 
 
