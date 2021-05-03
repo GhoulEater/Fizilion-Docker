@@ -78,7 +78,7 @@ RUN set -ex && \
 		postgresql-client
 
 ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt
-RUN pip install --no-cache-dir --no-use-pep517 -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN rm -rf requirements.txt
 
 
