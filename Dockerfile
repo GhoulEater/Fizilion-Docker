@@ -13,11 +13,10 @@ RUN dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-re
 RUN dnf -y install \
     aria2 chromium ffmpeg figlet gzip
 
-#pip
-RUN curl https://raw.githubusercontent.com/FrosT2k5/ProjectFizilion/dragon/requirements.txt -o requirments.txt \
-&& pip3 install -U pip \
-&& pip3 install -U --no-cache-dir -r requirements.txt \
-&& rm -rf requirements.txt
+#pip3
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirments.txt 
+
+RUN python3 -m pip install -U pip && pip3 install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
 
 #finalization
 CMD ["python3"]
