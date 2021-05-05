@@ -14,7 +14,7 @@ RUN dnf -y install \
     aria2 chromium ffmpeg figlet gzip
 
 #pip3
-ADD https://raw.githubusercontent.com/FrosT2k5/ProjectFizilion/dragon/requirements.txt requirements.txt 
+ADD https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/Demon/requirements.txt requirements.txt 
 RUN pip3 install -U --user pip && pip3 install --no-cache-dir --user -r requirements.txt && rm -rf requirements.txt
 
 #finalization
